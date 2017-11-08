@@ -9,6 +9,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.BaseAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import static com.coors.expensestudy.Constant.REQUEST_CODE_ISLOGIN;
@@ -16,6 +21,8 @@ import static com.coors.expensestudy.Constant.REQUEST_CODE_ISLOGIN;
 public class MainActivity extends AppCompatActivity {
 
     private SharedPrefHandler pref;
+    private ListView listView;
+    private String[] data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,11 +31,9 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        pref = SharedPrefHandler.getInstance(this);
-        if (!pref.getIsLogin()) {
-            Intent intent = new Intent(this, LoginActivity.class);
-            startActivityForResult(intent,REQUEST_CODE_ISLOGIN);
-        }
+        checkIsLogin();
+        findViews();
+        setUp();
 
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -39,6 +44,31 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+    }
+
+    private void setUp() {
+        data = getResources().getStringArray(R.array.list_view);
+        ListViewAdapter adapter = new ListViewAdapter();
+        listView.setAdapter(adapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(MainActivity.this, data[position], Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void findViews() {
+        listView = findViewById(R.id.listview);
+
+    }
+
+    private void checkIsLogin() {
+        pref = SharedPrefHandler.getInstance(this);
+        if (!pref.getIsLogin()) {
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivityForResult(intent,REQUEST_CODE_ISLOGIN);
+        }
     }
 
     @Override
@@ -74,4 +104,32 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
+    class ListViewAdapter extends BaseAdapter {
+        @Override
+        public int getCount() {
+            return data.length;
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return null;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            if (convertView == null) {
+                convertView = getLayoutInflater().inflate(R.layout.item_row, null);
+                TextView textView = convertView.findViewById(R.id.list_tv_itme_row);
+                textView.setText(data[position]);
+            }
+            return convertView;
+        }
+    }
+
 }
