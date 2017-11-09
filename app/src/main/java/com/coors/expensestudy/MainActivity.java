@@ -31,10 +31,10 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        checkIsLogin();
+        checkIsLogin(); // 檢查是否有登入過
         findViews();
-        setUp();
-
+        setUp(); //初始化listView
+        ExpenseHelper helper = new ExpenseHelper(this, "expense.db", null, 1);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
