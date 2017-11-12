@@ -20,7 +20,13 @@
             </intent-filter>
         </activity>
         <activity android:name=".LoginActivity" />
-        <activity android:name=".AddActivity"></activity>
+        <activity android:name=".AddActivity" />
+
+        <provider
+            android:name=".utils.ExpenseProvider"
+            android:authorities="com.coors.expensestudy" />
+
+        <activity android:name=".DeailActivity"></activity>
     </application>
 
 </manifest>

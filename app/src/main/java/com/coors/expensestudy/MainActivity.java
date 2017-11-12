@@ -1,12 +1,16 @@
 package com.coors.expensestudy;
 
+import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,6 +28,7 @@ import static com.coors.expensestudy.utils.Constant.REQUEST_CODE_ISLOGIN;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final String TAG = MainActivity.class.getSimpleName();
     private SharedPrefHandler pref;
     private ListView listView;
     private String[] data;
@@ -38,7 +43,9 @@ public class MainActivity extends AppCompatActivity {
 
         checkIsLogin(); // 檢查是否有登入過
         findViews();
-        setUpCursorAdapter();
+        getUriCursor();
+        
+//        setUpCursorAdapter();
 //        setUpArrayAdapter(); //初始化listView
 //        ExpenseHelper helper = new ExpenseHelper(this, "expense.db", null, 1);
 
@@ -51,11 +58,40 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void setUpCursorAdapter() {
-        Cursor cursor = helper.getReadableDatabase().query(ExpenseHelper.TABLE_EXP.TABLE_NAME, null, null, null, null, null, null, null);
+    private void getUriCursor() {
+        Log.d(TAG, "getUriCursor: " + ExpenseHelper.ExpContracts.CONTENT_URI.toString());
+//        Uri uri = ContentUris.withAppendedId(
+//                ExpenseHelper.ExpContracts.CONTENT_URI,3
+//        );
+//        Cursor cursor = getContentResolver().query(uri,
+//                null, null, null, null, null);
+        Cursor cursor = getContentResolver().query(
+                ExpenseHelper.ExpContracts.CONTENT_URI
+                , null, null, null, null, null);
+        Log.d(TAG, "getUriCursor: "+cursor.getCount());
         SimpleCursorAdapter simpleCursorAdapter = new SimpleCursorAdapter(this,R.layout.listview_item_row,
                 cursor,
-                new String[]{ExpenseHelper.TABLE_EXP.COL_CDATE, ExpenseHelper.TABLE_EXP.COL_INFO, ExpenseHelper.TABLE_EXP.COL_AMOUNT},
+                new String[]{ExpenseHelper.ExpContracts.TableExp.COL_CDATE, ExpenseHelper.ExpContracts.TableExp.COL_INFO, ExpenseHelper.ExpContracts.TableExp.COL_AMOUNT},
+                new int[]{R.id.item_tv_cdate,R.id.item_tv_info,R.id.item_tv_amount},
+                0);
+        listView.setAdapter(simpleCursorAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(MainActivity.this,DeailActivity.class);
+                intent.putExtra("postion", position);
+                Log.d(TAG, "onItemClick: position " + position);
+                startActivity(intent);
+            }
+        });
+
+    }
+    
+    private void setUpCursorAdapter() {
+        Cursor cursor = helper.getReadableDatabase().query(ExpenseHelper.ExpContracts.TABLE_NAME, null, null, null, null, null, null, null);
+        SimpleCursorAdapter simpleCursorAdapter = new SimpleCursorAdapter(this,R.layout.listview_item_row,
+                cursor,
+                new String[]{ExpenseHelper.ExpContracts.TableExp.COL_CDATE, ExpenseHelper.ExpContracts.TableExp.COL_INFO, ExpenseHelper.ExpContracts.TableExp.COL_AMOUNT},
                 new int[]{R.id.item_tv_cdate,R.id.item_tv_info,R.id.item_tv_amount},
                 0);
         listView.setAdapter(simpleCursorAdapter);

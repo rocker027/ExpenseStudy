@@ -55,10 +55,10 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
             showError();
         } else {
             ContentValues contentValues = new ContentValues();
-            contentValues.put(ExpenseHelper.TABLE_EXP.COL_CDATE,etCdate.getText().toString());
-            contentValues.put(ExpenseHelper.TABLE_EXP.COL_INFO,etInfo.getText().toString());
-            contentValues.put(ExpenseHelper.TABLE_EXP.COL_AMOUNT,etAmount.getText().toString());
-            long id = ExpenseHelper.getInstance(this).getWritableDatabase().insert(ExpenseHelper.TABLE_EXP.TABLE_NAME, null, contentValues);
+            contentValues.put(ExpenseHelper.ExpContracts.TableExp.COL_CDATE,etCdate.getText().toString());
+            contentValues.put(ExpenseHelper.ExpContracts.TableExp.COL_INFO,etInfo.getText().toString());
+            contentValues.put(ExpenseHelper.ExpContracts.TableExp.COL_AMOUNT,etAmount.getText().toString());
+            long id = ExpenseHelper.getInstance(this).getWritableDatabase().insert(ExpenseHelper.ExpContracts.TABLE_NAME, null, contentValues);
             if (id != -1) {
                 ShowToast.getInstance(this).show("新增成功");
             } else {
