@@ -52,10 +52,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setUpCursorAdapter() {
-        Cursor cursor = helper.getReadableDatabase().query(ExpenseHelper.TABLE_SCHEMA.TABLE_NAME, null, null, null, null, null, null, null);
+        Cursor cursor = helper.getReadableDatabase().query(ExpenseHelper.TABLE_EXP.TABLE_NAME, null, null, null, null, null, null, null);
         SimpleCursorAdapter simpleCursorAdapter = new SimpleCursorAdapter(this,R.layout.listview_item_row,
                 cursor,
-                new String[]{ExpenseHelper.TABLE_SCHEMA.COL_CDATE,ExpenseHelper.TABLE_SCHEMA.COL_INFO, ExpenseHelper.TABLE_SCHEMA.COL_AMOUNT},
+                new String[]{ExpenseHelper.TABLE_EXP.COL_CDATE, ExpenseHelper.TABLE_EXP.COL_INFO, ExpenseHelper.TABLE_EXP.COL_AMOUNT},
                 new int[]{R.id.item_tv_cdate,R.id.item_tv_info,R.id.item_tv_amount},
                 0);
         listView.setAdapter(simpleCursorAdapter);
