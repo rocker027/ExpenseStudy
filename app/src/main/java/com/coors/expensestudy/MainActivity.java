@@ -1,9 +1,12 @@
 package com.coors.expensestudy;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.widget.CursorAdapter;
+import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -23,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private SharedPrefHandler pref;
     private ListView listView;
     private String[] data;
+    private ExpenseHelper helper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,20 +37,31 @@ public class MainActivity extends AppCompatActivity {
 
         checkIsLogin(); // 檢查是否有登入過
         findViews();
-        setUp(); //初始化listView
-        ExpenseHelper helper = new ExpenseHelper(this, "expense.db", null, 1);
+        setUpCursorAdapter();
+//        setUpArrayAdapter(); //初始化listView
+//        ExpenseHelper helper = new ExpenseHelper(this, "expense.db", null, 1);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                GoToActivity.goTo(MainActivity.this, GoToActivity.ADD_ACTIVITY);
             }
         });
     }
 
-    private void setUp() {
+    private void setUpCursorAdapter() {
+        Cursor cursor = helper.getReadableDatabase().query(ExpenseHelper.TABLE_SCHEMA.TABLE_NAME, null, null, null, null, null, null, null);
+        SimpleCursorAdapter simpleCursorAdapter = new SimpleCursorAdapter(this,R.layout.listview_item_row,
+                cursor,
+                new String[]{ExpenseHelper.TABLE_SCHEMA.COL_CDATE,ExpenseHelper.TABLE_SCHEMA.COL_INFO, ExpenseHelper.TABLE_SCHEMA.COL_AMOUNT},
+                new int[]{R.id.item_tv_cdate,R.id.item_tv_info,R.id.item_tv_amount},
+                0);
+        listView.setAdapter(simpleCursorAdapter);
+
+    }
+
+    private void setUpArrayAdapter() {
         data = getResources().getStringArray(R.array.list_view);
         ListViewAdapter adapter = new ListViewAdapter();
         listView.setAdapter(adapter);
@@ -60,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void findViews() {
         listView = findViewById(R.id.listview);
+        helper = ExpenseHelper.getInstance(this);
 
     }
 
