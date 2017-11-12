@@ -1,4 +1,4 @@
-package com.coors.expensestudy;
+package com.coors.expensestudy.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -17,7 +17,7 @@ public class SharedPrefHandler {
     public static final String PREF_XML_NAME = "expense";
     private boolean isLogin;
 
-    static SharedPrefHandler getInstance(Context context) {
+    public static SharedPrefHandler getInstance(Context context) {
         if (ourInstance == null) {
             ourInstance = new SharedPrefHandler(context);
         }

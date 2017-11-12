@@ -2,13 +2,14 @@ package com.coors.expensestudy;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.coors.expensestudy.utils.SharedPrefHandler;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
     public static final String USER_NAME = "userName";

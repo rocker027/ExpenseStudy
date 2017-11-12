@@ -1,4 +1,4 @@
-package com.coors.expensestudy;
+package com.coors.expensestudy.utils;
 
 /**
  * Created by z8v on 2017/11/8.

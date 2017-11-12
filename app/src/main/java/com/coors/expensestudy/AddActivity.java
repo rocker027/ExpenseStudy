@@ -6,7 +6,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
+
+import com.coors.expensestudy.utils.GoToActivity;
+import com.coors.expensestudy.utils.ShowToast;
+
+import java.util.ArrayList;
 
 public class AddActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -46,8 +50,9 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
     }
 
     private void doVerification() {
-        if (etCdate.getText().toString().trim().matches("") && etInfo.getText().toString().trim().matches("") && etAmount.getText().toString().trim().matches("")) {
+        if (etCdate.getText().toString().trim().matches("") || etInfo.getText().toString().trim().matches("") || etAmount.getText().toString().trim().matches("")) {
             ShowToast.getInstance(this).show("欄位均不可為空值");
+            showError();
         } else {
             ContentValues contentValues = new ContentValues();
             contentValues.put(ExpenseHelper.TABLE_SCHEMA.COL_CDATE,etCdate.getText().toString());
@@ -60,6 +65,18 @@ public class AddActivity extends AppCompatActivity implements View.OnClickListen
                 ShowToast.getInstance(this).show("新增失敗");
             }
 
+        }
+    }
+
+    private void showError() {
+        ArrayList<EditText> editTexts = new ArrayList<>();
+        editTexts.add(etInfo);
+        editTexts.add(etCdate);
+        editTexts.add(etAmount);
+        for (EditText editText : editTexts) {
+            if (editText.getText().toString().trim().matches("")) {
+                editText.setError("不可空值");
+            }
         }
     }
 }

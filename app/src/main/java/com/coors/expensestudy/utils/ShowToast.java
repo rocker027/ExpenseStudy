@@ -1,4 +1,4 @@
-package com.coors.expensestudy;
+package com.coors.expensestudy.utils;
 
 import android.content.Context;
 import android.widget.Toast;
@@ -29,6 +29,16 @@ public class ShowToast {
             toast = android.widget.Toast.makeText(mContext, msg, DURATION);
         } else {
             toast.setText(msg);
+            toast.setDuration(DURATION);
+        }
+        toast.show();
+    }
+
+    public void show(int stringId) {
+        if (toast == null) {
+            toast = android.widget.Toast.makeText(mContext, mContext.getString(stringId), DURATION);
+        } else {
+            toast.setText(mContext.getString(stringId));
             toast.setDuration(DURATION);
         }
         toast.show();

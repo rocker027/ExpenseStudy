@@ -1,7 +1,11 @@
-package com.coors.expensestudy;
+package com.coors.expensestudy.utils;
 
 import android.app.Activity;
 import android.content.Intent;
+
+import com.coors.expensestudy.AddActivity;
+import com.coors.expensestudy.LoginActivity;
+import com.coors.expensestudy.MainActivity;
 
 /**
  * Created by z8v on 2017/11/7.
@@ -13,7 +17,7 @@ public class GoToActivity {
     public static final int ADD_ACTIVITY = 1002;
     private static Intent intent;
 
-    static void goTo(Activity activity, int activityId) {
+    public static void goTo(Activity activity, int activityId) {
         switch (activityId) {
             case HOME_MAIN_ACTIVITY:
                 if (activity instanceof MainActivity) {

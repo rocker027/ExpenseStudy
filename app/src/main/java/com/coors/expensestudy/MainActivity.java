@@ -4,8 +4,6 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.widget.CursorAdapter;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -19,7 +17,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import static com.coors.expensestudy.Constant.REQUEST_CODE_ISLOGIN;
+import com.coors.expensestudy.utils.GoToActivity;
+import com.coors.expensestudy.utils.SharedPrefHandler;
+
+import static com.coors.expensestudy.utils.Constant.REQUEST_CODE_ISLOGIN;
 
 public class MainActivity extends AppCompatActivity {
 
